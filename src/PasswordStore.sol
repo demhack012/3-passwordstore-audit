@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.18;
+pragma solidity 0.8.18; // q is this the correct version to use?
 
 /*
  * @author not-so-secure-dev
@@ -10,8 +10,17 @@ pragma solidity 0.8.18;
 contract PasswordStore {
     error PasswordStore__NotOwner();
 
+    /*//////////////////////////////////////////////////////////////
+                            STATE VARIABLES
+    //////////////////////////////////////////////////////////////*/
+
     address private s_owner;
+    // @audit the s_password variable is not actually private. This is not safe place to ssecure password.
     string private s_password;
+
+    /*//////////////////////////////////////////////////////////////
+                                 EVENTS
+    //////////////////////////////////////////////////////////////*/
 
     event SetNetPassword();
 
@@ -21,8 +30,11 @@ contract PasswordStore {
 
     /*
      * @notice This function allows only the owner to set a new password.
+     // @audit no parameter
      * @param newPassword The new password to set.
      */
+
+    // @audit any one can call the function
     function setPassword(string memory newPassword) external {
         s_password = newPassword;
         emit SetNetPassword();
